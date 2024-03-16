@@ -134,7 +134,7 @@ input {
   height: 30px;
   width: 100px;
   background-color: bisque;
-  justify-content: center
+  justify-content: center;
   border-radius: 20px;
   margin-left: 46%;
   margin-top: 10px;
