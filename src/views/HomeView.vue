@@ -56,7 +56,6 @@ export default {
       var password = document.getElementById('password').value
       if (list.some((item) => item.user === user && item.password === password)) {
         window.location.href = 'about'
-        window.close()
       } else if (user === '' && password === '') {
         document.getElementById('Result').innerHTML = 'Vui lòng nhập Tài khoản và Mật Khẩu!'
       } else {
