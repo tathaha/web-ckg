@@ -13,13 +13,8 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
-    },
-    // Add the catch-all route for 404: NOT_FOUND
-    {
-      path: '/:catchAll(.*)',
-      name: 'not-found',
-      component: () => import('../views/NotFoundView.vue')
     }
+    // Add the catch-all route for 404: NOT_FOUND
   ]
 })
 
