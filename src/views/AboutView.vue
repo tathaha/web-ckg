@@ -3,62 +3,45 @@
     <h1></h1>
     <div class="box">
       <div class="box1">
-        <table class="table1" id="mytable">
+        <table class="table1" ref="table" id="mytable">
           <th>STT</th>
           <th>Nguyên Vật Liệu</th>
           <th>Số lượng</th>
           <th>Giá cả (VND)</th>
+          <th>Ghi chú</th>
           <tr>
             <td>1</td>
-            <td>Gà</td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Cám</td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Trứng</td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Công Nhân</td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-          </tr>
-        </table>
-      </div>
-      <br />
-      <br />
-      <div class="box2">
-        <table class="table2" id="myTable">
-          <tr>
-            <th>STT</th>
-            <th>Nguyên Vật Liệu</th>
-            <th>Số lượng</th>
-            <th>Giá cả (VND)</th>
-          </tr>
-          <tr v-for="(row, index) in rows" :key="index" :class="`row-${index}`">
-            <td>{{ index + 1 }}</td>
             <td><input type="text" placeholder="Nhập dữ liệu" /></td>
             <td><input type="number" placeholder="Nhập dữ liệu" /></td>
             <td><input type="number" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="text" placeholder="Nhập dữ liệu" /></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><input type="text" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="text" placeholder="Nhập dữ liệu" /></td>
+          </tr>
+          <tr v-for="(row, index) in rows" :key="index" :class="`row-${index}`">
+            <td>{{ index + 3 }}</td>
+            <td><input type="text" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="number" placeholder="Nhập dữ liệu" /></td>
+            <td><input type="text" placeholder="Nhập dữ liệu" /></td>
           </tr>
         </table>
       </div>
+      <br />
     </div>
     <button class="button1" @click="themHang()">Thêm Hàng</button>
-    <button class="button2">Nộp Báo Cáo</button>
+    <button class="button2" @click="exportToExcel">Nộp Báo Cáo</button>
   </div>
 </template>
 
 <script>
+import xlsx from 'xlsx/dist/xlsx.full.min'
+
 export default {
   data() {
     return {
@@ -68,12 +51,37 @@ export default {
   methods: {
     themHang() {
       this.rows.push({})
+    },
+    exportToExcel() {
+      // Create a new workbook
+      const wb = xlsx.utils.book_new()
+      // Create a new worksheet
+      const ws = xlsx.utils.table_to_sheet(this.$refs.table)
+
+      // Loop through each row of the table
+      const tableRows = this.$refs.table.querySelectorAll('th tr')
+      tableRows.forEach((row, rowIndex) => {
+        const rowData = []
+        // Loop through each cell in the row
+        row.querySelectorAll('td input').forEach((input) => {
+          // Push the value of the input field into the rowData array
+          rowData.push(input.value)
+        })
+        // Add the rowData array to the worksheet
+        xlsx.utils.sheet_add_aoa(ws, [rowData], { origin: `A${rowIndex + 2}` })
+      })
+
+      // Add the worksheet to the workbook
+      xlsx.utils.book_append_sheet(wb, ws, 'Sheet1')
+
+      // Save the workbook as an Excel file
+      xlsx.writeFile(wb, 'table_data.xlsx')
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 body {
   width: 100%;
   height: 100vh;
@@ -113,6 +121,21 @@ input {
   text-align: center;
   background-color: rgb(236, 244, 175);
 }
+
+.button1 {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button2 {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .button1 {
   height: 30px;
   width: 100px;
