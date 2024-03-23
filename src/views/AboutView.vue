@@ -11,7 +11,6 @@
           <th>Ghi chú</th>
           <tr>
             <td>1</td>
-            01
             <td><input type="text" placeholder="Nhập dữ liệu" /></td>
             <td><input type="number" placeholder="Nhập dữ liệu" /></td>
             <td><input type="number" placeholder="Nhập dữ liệu" /></td>
