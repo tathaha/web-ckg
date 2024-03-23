@@ -1,53 +1,33 @@
+<template>
+  <div class="wrapper-dgxl">
+    <div ref="dgxl" class="grid"></div>
+    <input type="button" value="Add new row" @click="dgxlObj.insertEmptyRows()" />
+    <input type="button" value="Download data as CSV" @click="dgxlObj.downloadDataAsCSV()" /><br />
+  </div>
+</template>
+
 <script>
-import xlsx from 'xlsx/dist/xlsx.full.min'
+import DataGridXL from '@datagridxl/datagridxl2'
 
-function exportTableToExce(tableElement, filename) {
-  const table = document.querySelector(tableElement)
-  const tableData = []
-
-  // Extract table data
-  table.querySelectorAll('tr').forEach((row) => {
-    const rowData = []
-    row.querySelectorAll('th, td, input').forEach((cell) => {
-      rowData.push(cell.textContent)
-    })
-    tableData.push(rowData)
-  })
-
-  // Create worksheet
-  const worksheet = xlsx.utils.aoa_to_sheet(tableData)
-
-  // Create workbook
-  const workbook = xlsx.utils.book_new()
-  xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
-
-  // Export the workbook to Excel file
-  xlsx.writeFile(workbook, filename)
+export default {
+  name: 'DataGrid',
+  data() {
+    return {}
+  },
+  computed: {
+    dgxlOptions() {
+      return {}
+    }
+  },
+  mounted: function () {
+    const dgxlObj = new DataGridXL(this.$refs.dgxl, this.dgxlOptions)
+    Object.assign(this, { dgxlObj }) // tucks all methods under dgxlObj object in component instance
+  }
 }
 </script>
 
-<template>
-  <table ref="exportable_table">
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td><input type="text" placeholder="Nhập dữ liệu" /></td>
-        <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-        <td><input type="number" placeholder="Nhập dữ liệu" /></td>
-        <td><input type="text" placeholder="Nhập dữ liệu" /></td>
-      </tr>
-      <tr>
-        <td>Row 2 - Column 1</td>
-        <td>Row 2 - Column 2</td>
-        <td>Row 2 - Column 3</td>
-      </tr>
-      <tr>
-        <td>Row 3 - Column 1</td>
-        <td>Row 3 - Column 2</td>
-        <td>Row 3 - Column 3</td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="text" v-model="name" />
-  <button @click="exportTableToExcel()">Export table to excel xls</button>
-</template>
+<style>
+.grid {
+  height: 400px;
+}
+</style>

@@ -46,11 +46,12 @@ h1 {
 .form-label {
   position: absolute;
   top: 20%;
-  transform: translateY(-90%);
-  transform: translateX(-165%);
+  left: 50%;
+  transform: translateX(-50%);
   user-select: none;
   color: #999;
   pointer-events: none;
+  text-align: center;
 }
 .form-input:not(:placeholder-shown) + .form-label,
 .form-input:focus + .form-label {

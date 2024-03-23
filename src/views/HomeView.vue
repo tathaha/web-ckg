@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Welcome to Chicken's Company</h1>
+    <h1 style="text-align: center">Welcome to Chicken's Company</h1>
     <div class="wrapper"></div>
     <form>
       <br />
@@ -16,7 +16,9 @@
             placeholder=" "
             required
           />
-          <label for="name" class="form-label">Tài Khoản đăng nhập</label>
+          <label for="name" class="form-label" style="text-align: center"
+            >Tài Khoản đăng nhập</label
+          >
         </div>
       </h2>
       <br />
@@ -66,3 +68,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@media (max-width: 600px) {
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .button {
+    width: 100%;
+  }
+}
+</style>
